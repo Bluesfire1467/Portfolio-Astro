@@ -3,8 +3,13 @@ import { Image } from 'astro:assets';
 
 import ERP from '../assets/projects/ERP.avif';
 import Hackathon from '../assets/projects/Hackaton-Undefined.avif';
+import DeadLotery from '../assets/projects/DeadLotery.avif';
 import IAProject from '../assets/projects/IA_prom.avif';
 import Aquazul from '../assets/projects/Aquazul.avif';
+import Example1 from '../assets/projects/Example1.png';
+import Example2 from '../assets/projects/Example2.png';
+import Example3 from '../assets/projects/Example3.png';
+import Example4 from '../assets/projects/Example4.png';
 
 const projects = [
   {
@@ -12,20 +17,28 @@ const projects = [
     description: 'Web Application type SPA for management workflows of companies',
     tags: ['VueJs', 'TailwindCSS', 'NodeJs', 'ApolloClient'],
     image: ERP,
+    gallery: [ERP, Example1, Example2, Example3, Example4] 
   },
   {
     title: 'Hackathon - Interledger',
     description: 'Collaborative Application for sharing payments with friends using Interledger API',
     tags: ['VueJs', 'TypeScript', 'Axios'],
     image: Hackathon,
-    github: 'https://github.com'
+    github: 'https://github.com/Bluesfire1467/Hackaton-Interledger'
+  },
+  {
+    title: 'DeadLotery - JSConf',
+    description: 'The game developed for JSConf with Kiro is the "Code of the Dead Challenge"',
+    tags: ['VueJs', 'TypeScript', 'Axios'],
+    image: DeadLotery,
+    github: 'https://github.com/Bluesfire1467/Hackaton-Interledger'
   },
   {
     title: 'Water Container Management',
     description: 'Data visualization platform for management container of water',
     tags: ['Python', 'Pandas', 'NumPy', 'SocketIO'],
     image: IAProject,
-    github: 'https://github.com'
+    github: 'https://github.com/Bluesfire1467/IA_AGUA'
   },
   {
     title: 'Aquazul',
@@ -47,50 +60,201 @@ const projects = [
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {projects.map((project, index) => (
-        <div 
-          class="group bg-slate-900/80 backdrop-blur-sm rounded-xl overflow-hidden border border-slate-800 hover:border-neon-blue/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,243,255,0.15)] hover:-translate-y-2 reveal-on-scroll"
-          style={`animation-delay: ${index * 100}ms`}
-        >
-          <div class="relative h-48 overflow-hidden">
-            <div class="absolute inset-0 bg-primary-900/20 group-hover:bg-transparent transition-colors duration-300 z-10"></div>
-            <Image
-              src={project.image}
-              alt={project.title}
-              width={1200}
-              height={800}
-              class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-            />
+      {projects.map((project, index) => {
+        const isPrivate = !project.github;
+        const CardTag = isPrivate ? 'div' : 'a';
+        const cardProps = isPrivate ? {
+          role: "button",
+          "aria-label": `View ${project.title} gallery`,
+          onclick: (project.gallery && project.gallery.length > 0) 
+            ? `openModal('${JSON.stringify(project.gallery.map(img => img.src))}', '${project.title}')`
+            : `openModal('["${project.image.src}"]', '${project.title}')`
+        } : {
+          href: project.github,
+          target: "_blank",
+          rel: "noopener noreferrer"
+        };
+
+        return (
+          <CardTag 
+            {...cardProps}
+            class="group block bg-slate-900/80 backdrop-blur-sm rounded-xl overflow-hidden border border-slate-800 hover:border-neon-blue/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,243,255,0.15)] hover:-translate-y-2 reveal-on-scroll cursor-pointer"
+            style={`animation-delay: ${index * 100}ms`}
+          >
+            <div class="relative h-48 overflow-hidden">
+              <div class="absolute inset-0 bg-primary-900/20 group-hover:bg-transparent transition-colors duration-300 z-10"></div>
+              <Image
+                src={project.image}
+                alt={project.title}
+                width={1200}
+                height={800}
+                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+              />
+              
+              {isPrivate && (
+                <div class="absolute top-4 left-4 z-20">
+                  <span class="px-3 py-1 text-xs font-bold rounded-sm bg-red-500/50 text-red-900 border border-red-500/50 backdrop-blur-md">
+                    Private Project
+                  </span>
+                </div>
+              )}
+
+              {/* Icon Overlay */}
+              <div class="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {isPrivate ? (
+                  <div class="bg-black/50 p-3 rounded-full backdrop-blur-sm border border-white/10">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white w-8 h-8"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </div>
+                ) : (
+                  <div class="bg-black/50 p-3 rounded-full backdrop-blur-sm border border-white/10">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white w-8 h-8"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                  </div>
+                )}
+              </div>
+            </div>
             
-            <!-- GitHub Overlay Button -->
-            <div class="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-              <a 
-                href={project.github} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="flex items-center justify-center w-10 h-10 rounded-full bg-slate-900/90 text-white hover:text-neon-blue hover:bg-slate-800 border border-slate-700 hover:border-neon-blue transition-all duration-300 shadow-lg"
-                aria-label={`View ${project.title} on GitHub`}
-              >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
-                </svg>
-              </a>
+            <div class="p-6">
+              <div class="flex justify-between items-start mb-2">
+                <h3 class="text-xl font-bold text-slate-100 group-hover:text-neon-blue transition-colors duration-300">{project.title}</h3>
+                {isPrivate && (
+                   <span class="text-xs text-slate-500 flex items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      Private
+                   </span>
+                )}
+              </div>
+              <p class="text-slate-400 mb-4 text-sm line-clamp-3 leading-relaxed">{project.description}</p>
+              <div class="flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span class="px-3 py-1 text-xs font-medium rounded-full bg-slate-800/50 text-primary-300 border border-slate-700/50 group-hover:border-primary-500/30 transition-colors">
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-          
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-slate-100 mb-2 group-hover:text-neon-blue transition-colors duration-300">{project.title}</h3>
-            <p class="text-slate-400 mb-4 text-sm line-clamp-3 leading-relaxed">{project.description}</p>
-            <div class="flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
-                <span class="px-3 py-1 text-xs font-medium rounded-full bg-slate-800/50 text-primary-300 border border-slate-700/50 group-hover:border-primary-500/30 transition-colors">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      ))}
+          </CardTag>
+        );
+      })}
     </div>
   </div>
+
+  <!-- Image Modal -->
+  <dialog id="image-modal" class="bg-transparent p-0 backdrop:bg-black/80 w-screen h-screen max-w-none max-h-none m-0 z-50 fixed inset-0 items-center justify-center hidden open:flex" onclick="closeModal()">
+    <div class="relative max-w-6xl max-h-[95vh] w-full p-4 flex flex-col items-center justify-center" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute -top-10 right-4 lg:-right-4 text-white hover:text-red-400 transition-colors p-2 z-50 bg-black/50 rounded-full backdrop-blur-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+      
+      <div class="relative w-full flex items-center justify-center group/modal">
+        <!-- Prev Button -->
+        <button id="prev-btn" onclick="prevImage(event)" class="absolute left-2 lg:-left-12 top-1/2 -translate-y-1/2 p-3 text-white/70 hover:text-white bg-black/50 hover:bg-black/80 rounded-full transition-all backdrop-blur-sm z-50 hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+
+        <img id="modal-image" src="" alt="Project Preview" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl border border-slate-700" />
+        
+        <!-- Next Button -->
+        <button id="next-btn" onclick="nextImage(event)" class="absolute right-2 lg:-right-12 top-1/2 -translate-y-1/2 p-3 text-white/70 hover:text-white bg-black/50 hover:bg-black/80 rounded-full transition-all backdrop-blur-sm z-50 hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+
+      <div class="mt-4 flex flex-col items-center">
+        <h3 id="modal-title" class="text-2xl font-bold text-white text-center"></h3>
+        <span id="image-counter" class="text-slate-400 text-sm mt-1"></span>
+      </div>
+    </div>
+  </dialog>
+
+  <script is:inline>
+    let currentGallery = [];
+    let currentIndex = 0;
+
+    function openModal(imagesJson, title) {
+      try {
+        currentGallery = JSON.parse(imagesJson);
+      } catch (e) {
+        currentGallery = [imagesJson];
+      }
+      
+      currentIndex = 0;
+      const modalTitle = document.getElementById('modal-title');
+      if (modalTitle) modalTitle.textContent = title;
+      
+      updateModalImage();
+      
+      const modal = document.getElementById('image-modal');
+      if (modal) {
+        modal.showModal();
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function updateModalImage() {
+      const modalImg = document.getElementById('modal-image');
+      const counter = document.getElementById('image-counter');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      
+      if (modalImg && currentGallery.length > 0) {
+        modalImg.src = currentGallery[currentIndex];
+        
+        // Update counter
+        if (counter) {
+          counter.textContent = `${currentIndex + 1} / ${currentGallery.length}`;
+          counter.style.display = currentGallery.length > 1 ? 'block' : 'none';
+        }
+
+        // Show/hide navigation buttons
+        if (prevBtn) prevBtn.style.display = currentGallery.length > 1 ? 'flex' : 'none';
+        if (nextBtn) nextBtn.style.display = currentGallery.length > 1 ? 'flex' : 'none';
+      }
+    }
+
+    function nextImage(event) {
+      if (event) event.stopPropagation();
+      if (currentGallery.length > 1) {
+        currentIndex = (currentIndex + 1) % currentGallery.length;
+        updateModalImage();
+      }
+    }
+
+    function prevImage(event) {
+      if (event) event.stopPropagation();
+      if (currentGallery.length > 1) {
+        currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+        updateModalImage();
+      }
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('image-modal');
+      if (modal) {
+        modal.close();
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('image-modal');
+      if (!modal || modal.classList.contains('hidden')) return;
+
+      if (e.key === 'Escape') {
+        closeModal();
+      } else if (e.key === 'ArrowRight') {
+        nextImage();
+      } else if (e.key === 'ArrowLeft') {
+        prevImage();
+      }
+    });
+
+    // Make functions globally available
+    window.openModal = openModal;
+    window.closeModal = closeModal;
+    window.nextImage = nextImage;
+    window.prevImage = prevImage;
+  </script>
 </section>
