@@ -3,7 +3,4 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        - VITE_API_URL=${VITE_API_URL}
-        - VITE_GRAPHQL_URL=${VITE_GRAPHQL_URL}
     restart: unless-stopped

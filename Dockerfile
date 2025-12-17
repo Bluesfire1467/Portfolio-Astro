@@ -4,12 +4,6 @@ FROM node:20-alpine AS build-stage
 # Establecer directorio de trabajo
 WORKDIR /app
 
-ARG VITE_API_URL
-ARG VITE_GRAPHQL_URL
-
-ENV VITE_API_URL=${VITE_API_URL}
-ENV VITE_GRAPHQL_URL=${VITE_GRAPHQL_URL}
-
 # Copiar archivos de dependencias
 COPY package*.json ./
 
