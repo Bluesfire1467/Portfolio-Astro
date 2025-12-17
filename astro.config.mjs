@@ -9,4 +9,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   integrations: [astroIcon()],
+  image: {
+    domains: ["images.unsplash.com"],
+  },
 });

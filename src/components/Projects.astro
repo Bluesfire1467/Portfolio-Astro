@@ -1,25 +1,38 @@
 ---
+import { Image } from 'astro:assets';
+
+import ERP from '../assets/projects/ERP.avif';
+import Hackathon from '../assets/projects/Hackaton-Undefined.avif';
+import IAProject from '../assets/projects/IA_prom.avif';
+import Aquazul from '../assets/projects/Aquazul.avif';
+
 const projects = [
   {
-    title: 'E-Commerce Platform',
-    description: 'A full-featured online store with real-time inventory management and secure payment processing.',
-    tags: ['Astro', 'Node.js', 'PostgreSQL'],
-    image: 'https://images.unsplash.com/photo-1557821552-17105176677c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+    title: 'ERP Platform Template (Private)',
+    description: 'Web Application type SPA for management workflows of companies',
+    tags: ['VueJs', 'TailwindCSS', 'NodeJs', 'ApolloClient'],
+    image: ERP,
+  },
+  {
+    title: 'Hackathon - Interledger',
+    description: 'Collaborative Application for sharing payments with friends using Interledger API',
+    tags: ['VueJs', 'TypeScript', 'Axios'],
+    image: Hackathon,
     github: 'https://github.com'
   },
   {
-    title: 'Task Management App',
-    description: 'Collaborative project management tool designed for remote teams with real-time updates.',
-    tags: ['React', 'TypeScript', 'MongoDB'],
-    image: 'https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+    title: 'Water Container Management',
+    description: 'Data visualization platform for management container of water',
+    tags: ['Python', 'Pandas', 'NumPy', 'SocketIO'],
+    image: IAProject,
     github: 'https://github.com'
   },
   {
-    title: 'Financial Dashboard',
-    description: 'Data visualization platform for tracking investments and market trends.',
-    tags: ['Vue.js', 'D3.js', 'MySQL'],
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-    github: 'https://github.com'
+    title: 'Aquazul',
+    description: 'Desktop application for managing aquariums',
+    tags: ['Python', 'Oracle', 'PyQt5'],
+    image: Aquazul,
+    github: 'https://github.com/Bluesfire1467/Aquazul_GUI'
   }
 ];
 ---
@@ -41,9 +54,11 @@ const projects = [
         >
           <div class="relative h-48 overflow-hidden">
             <div class="absolute inset-0 bg-primary-900/20 group-hover:bg-transparent transition-colors duration-300 z-10"></div>
-            <img 
-              src={project.image} 
-              alt={project.title} 
+            <Image
+              src={project.image}
+              alt={project.title}
+              width={1200}
+              height={800}
               class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
             />
             
