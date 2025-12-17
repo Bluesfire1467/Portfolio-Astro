@@ -1,0 +1,94 @@
+---
+interface Experience {
+  role: string;
+  company: string;
+  period: string;
+  description: string[];
+}
+
+const experiences: Experience[] = [
+  {
+    role: "Fullstack Developer Jr",
+    company: "Redecom",
+    period: "Jun 2024 - Present",
+    description: [
+      "Leading a team of developers in building scalable web applications using Vue.js, Node.js, Apollo. Improved system performance by 40%.",
+      "Developed a full-stack web application to manage the company’s internal invoice collection process. Implemented UX design principles and built the interface using Vue.js.",
+      "Created the backend using Node.js (Express) with files and image processing, connected to a MySQL database. This application generate monthly reports with Exceljs.",
+    ]
+  },
+  {
+    role: "Frontend Developer | Intern",
+    company: "Honorable Cámara de Diputados",
+    period: "2021 - 2023",
+    description: [
+      "Architected a relational database focused on managing the accounting department process and built it using PostgreSQL. Developed a web application using C# and the DevExpress framework.",
+      "Implemented a web application using C# and the DevExpress framework.",
+    ]
+  },
+];
+---
+
+<section id="experience" class="py-24 relative overflow-hidden">
+  <!-- Background Elements -->
+  <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-900/10 rounded-full blur-[100px] -z-10"></div>
+  <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-neon-purple/10 rounded-full blur-[100px] -z-10"></div>
+
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16 reveal-on-scroll">
+      <h2 class="text-4xl font-bold text-slate-100 mb-6 tracking-tight">Professional Journey</h2>
+      <p class="text-slate-400 max-w-2xl mx-auto text-lg">
+        My path in the tech industry, marked by continuous learning and impactful contributions.
+      </p>
+    </div>
+
+    <div class="relative space-y-12 pl-8 md:pl-0">
+      <!-- Vertical Line -->
+      <div class="absolute left-8 md:left-[28px] top-0 bottom-0 w-0.5 bg-linear-to-b from-transparent via-primary-500/50 to-transparent"></div>
+
+      {experiences.map((exp, index) => (
+        <div class="relative pl-12 md:pl-24 reveal-on-scroll">
+          
+          <!-- Timeline Dot -->
+          <div class="absolute left-8 md:left-[28px] top-8 -translate-x-1/2 w-4 h-4 rounded-full bg-slate-950 border-2 border-neon-blue shadow-[0_0_10px_#00f3ff] z-10">
+            <div class="absolute inset-0 rounded-full bg-neon-blue/50 animate-ping"></div>
+          </div>
+
+          <!-- Card -->
+          <div class="group relative bg-slate-900/40 backdrop-blur-md p-8 rounded-2xl border border-slate-800/50 hover:border-neon-blue/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,243,255,0.15)] hover:-translate-y-1 overflow-hidden">
+            
+            <!-- Card Glow Effect -->
+            <div class="absolute inset-0 bg-gradient-to-br from-neon-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            <!-- Content -->
+            <div class="relative z-10">
+              <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
+                <div>
+                  <h3 class="text-2xl font-bold text-slate-100 group-hover:text-neon-blue transition-colors duration-300">{exp.role}</h3>
+                  <div class="flex items-center gap-2 mt-2 text-lg text-slate-300 font-medium">
+                    <svg class="w-5 h-5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    {exp.company}
+                  </div>
+                </div>
+                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-primary-500/10 text-primary-300 border border-primary-500/20 shadow-[0_0_10px_rgba(59,130,246,0.1)] self-start whitespace-nowrap">
+                  {exp.period}
+                </span>
+              </div>
+              
+              <ul class="space-y-3">
+                {exp.description.map((desc, index) => (
+                  <li class="flex items-start gap-3 text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors duration-300">
+                    <span class="mt-2 w-1.5 h-1.5 rounded-full bg-neon-blue/50 shrink-0 shadow-[0_0_5px_rgba(0,243,255,0.5)]"></span>
+                    <span>{desc}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

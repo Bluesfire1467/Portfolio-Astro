@@ -1,0 +1,141 @@
+<div id="canvas-container" class="fixed inset-0 -z-50 pointer-events-none"></div>
+
+<script>
+  import * as THREE from 'three';
+
+  const container = document.getElementById('canvas-container');
+
+  if (container) {
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x020617, 0.002);
+
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 50; // Move camera back
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // --- Particles (Neon Blue) ---
+    const particleCount = 2000;
+    const particleGeometry = new THREE.BufferGeometry();
+    const particlePositions = new Float32Array(particleCount * 3);
+    
+    // Spread particles in a long tunnel
+    for(let i = 0; i < particleCount * 3; i += 3) {
+      particlePositions[i] = (Math.random() - 0.5) * 200;     // x
+      particlePositions[i+1] = (Math.random() - 0.5) * 200;   // y
+      particlePositions[i+2] = (Math.random() - 0.5) * 400;   // z (spread depth)
+    }
+    
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+    
+    const particleMaterial = new THREE.PointsMaterial({
+      color: 0x00f3ff,
+      size: 0.4,
+      transparent: true,
+      opacity: 0.8,
+      sizeAttenuation: true
+    });
+    
+    const particles = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particles);
+
+    // --- Lines (White Tunnel) ---
+    const lineCount = 100;
+    const lineGeometry = new THREE.BufferGeometry();
+    const linePositions = new Float32Array(lineCount * 6); // 2 points per line
+    
+    for(let i = 0; i < lineCount * 6; i += 6) {
+        const x = (Math.random() - 0.5) * 300;
+        const y = (Math.random() - 0.5) * 300;
+        const z = (Math.random() - 0.5) * 400;
+        
+        // Start point
+        linePositions[i] = x;
+        linePositions[i+1] = y;
+        linePositions[i+2] = z;
+        
+        // End point
+        linePositions[i+3] = x;
+        linePositions[i+4] = y;
+        linePositions[i+5] = z - 40; // Line length
+    }
+    
+    lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+    const lineMaterial = new THREE.LineBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.15
+    });
+    
+    const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+    scene.add(lines);
+
+    // Animation Loop
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // 1. Animate Particles
+      const pPositions = particles.geometry.attributes.position.array;
+      for(let i = 2; i < particleCount * 3; i += 3) {
+        pPositions[i] += 0.2; // Move towards camera
+        
+        // Reset if too close/behind camera
+        if (pPositions[i] > 100) {
+          pPositions[i] = -300; // Reset to far distance
+          // Optionally randomize X/Y again for variety
+          // pPositions[i-2] = (Math.random() - 0.5) * 200;
+          // pPositions[i-1] = (Math.random() - 0.5) * 200;
+        }
+      }
+      particles.geometry.attributes.position.needsUpdate = true;
+
+      // 2. Animate Lines
+      const lPositions = lines.geometry.attributes.position.array;
+      for(let i = 0; i < lineCount * 6; i += 6) {
+        // Move both start and end Z points
+        lPositions[i+2] += 0.5; // Start Z
+        lPositions[i+5] += 0.5; // End Z
+
+        // Check if the entire line has passed the camera
+        if (lPositions[i+2] > 100 && lPositions[i+5] > 100) {
+           const zOffset = -300;
+           const length = 40;
+           
+           // Reset Z
+           lPositions[i+2] = zOffset;
+           lPositions[i+5] = zOffset - length;
+           
+           // Randomize X/Y for new line appearance
+           const x = (Math.random() - 0.5) * 300;
+           const y = (Math.random() - 0.5) * 300;
+           
+           lPositions[i] = x;
+           lPositions[i+3] = x;
+           lPositions[i+1] = y;
+           lPositions[i+4] = y;
+        }
+      }
+      lines.geometry.attributes.position.needsUpdate = true;
+
+      // Rotation effect
+      const scrollY = window.scrollY;
+      scene.rotation.z = scrollY * 0.0002;
+      
+      // Gentle constant rotation
+      scene.rotation.z += 0.0005;
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  }
+</script>

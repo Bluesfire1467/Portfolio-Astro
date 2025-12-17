@@ -1,0 +1,74 @@
+---
+import '../styles/global.css';
+import Background3D from '../components/Background3D.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Rey Quintero Portfolio" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	</head>
+	<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-primary-500 selection:text-white">
+		<Background3D />
+		<slot />
+		<script>
+			import Lenis from 'lenis'
+
+			// Initialize Lenis
+			const lenis = new Lenis({
+				duration: 1.2,
+				easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+				orientation: 'vertical',
+				gestureOrientation: 'vertical',
+				smoothWheel: true,
+			})
+
+			function raf(time) {
+				lenis.raf(time)
+				requestAnimationFrame(raf)
+			}
+
+			requestAnimationFrame(raf)
+
+			// Intersection Observer for Scroll Animations
+			const observerOptions = {
+				root: null,
+				rootMargin: '0px',
+				threshold: 0.1
+			};
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('is-visible');
+						observer.unobserve(entry.target); // Only animate once
+					}
+				});
+			}, observerOptions);
+
+			document.addEventListener('astro:page-load', () => {
+				const targets = document.querySelectorAll('.reveal-on-scroll');
+				targets.forEach(target => observer.observe(target));
+			});
+
+			// Initial run for non-SPA navigation
+			const targets = document.querySelectorAll('.reveal-on-scroll');
+			targets.forEach(target => observer.observe(target));
+		</script>
+	</body>
+</html>
