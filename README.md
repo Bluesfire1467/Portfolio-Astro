@@ -1,46 +1,58 @@
-# Astro Starter Kit: Basics
+# Rey Quintero — Portfolio
 
-```sh
-npm create astro@latest -- --template basics
-```
+Portafolio personal construido con [Astro](https://astro.build), Tailwind CSS y Three.js.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Soy **Rey Quintero**, Fullstack Developer con enfoque en Frontend y 2+ años de experiencia, apasionado por construir interfaces de usuario intuitivas y dinámicas manteniendo integraciones backend robustas.
+
+- 🐙 GitHub: [Bluesfire1467](https://github.com/Bluesfire1467)
+- 💼 LinkedIn: [reyqg](https://www.linkedin.com/in/reyqg/)
+
+## 🛠️ Tech Stack
+
+- **Framework:** Astro
+- **Estilos:** Tailwind CSS
+- **Animaciones/3D:** Three.js, Lenis (smooth scroll)
+- **Frontend:** React, Vue
+- **Backend:** Node.js
 
 ## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
 
 ```text
 /
 ├── public/
 │   └── favicon.svg
 ├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
+│   ├── assets
+│   │   ├── projects/
+│   │   ├── background.svg
+│   │   └── Me.jpeg
+│   ├── components
+│   │   ├── Header.astro
+│   │   ├── Profile.astro
+│   │   ├── Experience.astro
+│   │   ├── Projects.astro
+│   │   ├── TechStack.astro
+│   │   ├── Availability.astro
+│   │   ├── Background3D.astro
+│   │   └── Footer.astro
+│   ├── layouts
+│   │   └── Layout.astro
+│   ├── styles
+│   │   └── global.css
+│   └── pages
+│       └── index.astro
 └── package.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## 🧞 Comandos
 
-## 🧞 Commands
+Todos los comandos se ejecutan desde la raíz del proyecto, en una terminal:
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| Comando                   | Acción                                             |
+| :------------------------ | :-------------------------------------------------- |
+| `npm install`              | Instala las dependencias                            |
+| `npm run dev`               | Inicia el servidor local en `localhost:4321`         |
+| `npm run build`             | Genera el build de producción en `./dist/`           |
+| `npm run preview`           | Previsualiza el build localmente antes de desplegar  |
+| `npm run astro ...`         | Ejecuta comandos CLI como `astro add`, `astro check` |
+| `npm run astro -- --help`   | Muestra ayuda del CLI de Astro                       |
